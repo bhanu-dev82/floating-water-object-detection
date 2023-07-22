@@ -1,3 +1,4 @@
+# don't ask me about name of the file, it will always be didiserver
 import cv2
 import matplotlib.pyplot as plt
 import cvlib as cv
@@ -6,12 +7,13 @@ import numpy as np
 from cvlib.object_detection import draw_bbox
 import concurrent.futures
 
-url = 'http://192.168.242.88/cam-mid.jpg'
+#example url change it according to what you get from the esp32-cam
+url = 'http://192.168.242.88/cam-mid.jpg' 
 
 # Motor control function
 def control_motor(state):
     # Send HTTP request to ESP32-CAM module to control motor
-    motor_url = 'http://192.168.242.88/motor?state=' + state
+    motor_url = url + '/motor?state=' + state
     urllib.request.urlopen(motor_url)
 
 def run1():
@@ -38,7 +40,7 @@ def run2():
         bbox, label, conf = cv.detect_common_objects(im)
         im = draw_bbox(im, bbox, label, conf)
 
-        # Check if person is detected
+        # Check if bottle is detected
         if 'bottle' in label:
             control_motor('on')
         else:
